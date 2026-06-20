@@ -4,22 +4,32 @@ import random
 #FOOD
 class Food:
     def __init__(self, width, height, size):
-        self.image = pygame.image.load("apple.jpeg")
-        self.image = pygame.transform.scale(self.image, (size, size))
         self.width = width
         self.height = height
         self.size = size
+
+        self.images = [
+            pygame.transform.scale(pygame.image.load("apple.jpeg"), (size, size)),
+            pygame.transform.scale(pygame.image.load("durian.png"), (size, size)),
+             pygame.transform.scale(pygame.image.load("banana.png"), (size, size))
+        ]
+
         self.spawn()
 
     def spawn(self):
         self.x = random.randrange(0, self.width, self.size)
         self.y = random.randrange(0, self.height, self.size)
 
+        # pilih gambar buah secara acak
+        self.image = random.choice(self.images)
+
     def draw(self, surface):
         surface.blit(self.image, (self.x, self.y))
 
 #INIT GAME
 pygame.init()
+minion__img = pygame.image.load("minion.png")
+minion__img = pygame.transform.scale(minion__img, (20, 20))
 W = 400
 screen = pygame.display.set_mode((W, W))
 pygame.display.set_caption("Snake Game")
@@ -27,7 +37,7 @@ clock = pygame.time.Clock()
 
 #FONT & GAMBAR GAME OVER
 font = pygame.font.SysFont(None, 36)
-game_over_img = pygame.image.load("GameOver.jpeg")
+game_over_img = pygame.image.load("GameOverminion.png")
 game_over_img = pygame.transform.scale(game_over_img, (250, 120))
 
 # TOMBOL RESPWAN
@@ -94,8 +104,8 @@ while running:
 
     screen.fill((20, 20, 20))
 
-    for s in snake: #GAMBAR SNAKE
-        pygame.draw.rect(screen, (0, 255, 100), (*s, 20, 20))
+    for s in snake:
+        screen.blit(minion__img, s)
 
     food.draw(screen) #GAMBAR APEL
 
